@@ -18,5 +18,5 @@ func main() {
 	_ = M.Start()
 	//fmt.Println(M.DELETE_ALL_RECORDS_IN_DATABASE())
 
-	log.Println(http.ListenAndServe(":8080", r))
+	log.Println(http.ListenAndServe(CONFIG_MAP["listen port"], r))
 }
