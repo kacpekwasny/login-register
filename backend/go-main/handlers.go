@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	cmt "imports/commontools"
+	cmt "github.com/kacpekwasny/commontools"
 
 	asrv "github.com/kacpekwasny/authserv/src2"
 )

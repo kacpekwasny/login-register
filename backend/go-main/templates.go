@@ -1,9 +1,10 @@
 package main
 
 import (
-	cmt "imports/commontools"
 	"net/http"
 	"text/template"
+
+	cmt "github.com/kacpekwasny/commontools"
 )
 
 var templates *template.Template

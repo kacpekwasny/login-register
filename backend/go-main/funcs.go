@@ -4,10 +4,11 @@ import (
 	"crypto"
 	"encoding/json"
 	"fmt"
-	cmt "imports/commontools"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	cmt "github.com/kacpekwasny/commontools"
 )
 
 // json2map
