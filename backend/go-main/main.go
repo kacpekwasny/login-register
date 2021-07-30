@@ -9,7 +9,7 @@ import (
 func main() {
 	M.LOG_LEVEL = 3
 	// preapre templates
-	const prf = "/media/kacper/Transcend_K1/Home/IT/Code/github.com/kacpekwasny/login-register-page/templates/"
+	const prf = "../templates/"
 	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
 
