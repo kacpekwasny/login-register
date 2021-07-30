@@ -10,7 +10,7 @@ func main() {
 	M.LOG_LEVEL = 3
 	// preapre templates
 	const prf = "/media/kacper/Transcend_K1/Home/IT/Code/github.com/kacpekwasny/login-register-page/templates/"
-	LoadTemplatesFiles(prf, "login_bs.html", "register_bs.html")
+	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
 
 	fmt.Println("Login, register and auth server listening...")
