@@ -9,7 +9,7 @@ import (
 func main() {
 	M.LOG_LEVEL = 3
 	// preapre templates
-	const prf = "../templates/"
+	const prf = "/home/kacper/Code/PRODUCTION/web_server/kwasnyy.pl/servers/login-register/templates/"
 	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
 
