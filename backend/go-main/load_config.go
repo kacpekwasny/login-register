@@ -11,7 +11,7 @@ import (
 var CONFIG_MAP map[string]string
 
 func LoadConfig() {
-	f, err := os.Open("logreg.conf.json")
+	f, err := os.Open("conf.json")
 	cmt.Pc(err)
 	defer f.Close()
 	bytes, err := ioutil.ReadAll(f)
