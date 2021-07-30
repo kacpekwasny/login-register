@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ index . "title"  }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css-pages/login-register.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/static/js-libs/cookie-funcs.js"></script>
+    <script src="/static/js-libs/w3-funcs.js"></script>
+    <script src="/static/js-libs/funcs.js"></script>
+</head>
+
+<body>
+    <div id="wrapper" class="">
+        <nav class="navbar bg-dark" style="width: 100%;">
+            <div class="btn-group m-1">
+                <a class="btn bg-white" href="/">{{index . "nav go home" }}</a>
+                <a class="btn btn-primary" href="#">{{index . "nav log in" }}</a>
+                <a class="btn bg-white" href="/register">{{ index . "nav register" }}</a>
+            </div>
+            <div class="btn-group m-1">
+                <button class="btn btn-danger"  onclick="document.cookie = 'lang=pl; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);" >Polski</button>
+                <button class="btn btn-primary" onclick="document.cookie = 'lang=en; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);">English</button>
+            </div>
+        </nav>
+    
+        <div id="inputs-card" class="card boreder-2 boreder-dark shadow mx-auto">
+            <div id="card-header-id d-flex" class="card-header">
+                <h3 class="text-center my-auto">{{ index . "title" }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="input-group my-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Login</span>
+                    </div>
+                    <input id="login-input-id" name="login" type="text" class="form-control">
+                </div>
+                <label id="login-err-id" class="text-danger"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">{{ index . "password input" }}</span>
+                    </div>
+                    <input id="password-input-id" name="password" type="password" class="form-control">
+                </div>
+                <label id="pass-err-id" class="text-danger"></label>
+                <button id="login-button-id" onclick="clickLoginBtn()" class="btn btn-success float-right px-4">{{index . "log in action" }}</button>
+            </div>
+
+        </div>
+
+        <div id="success-div-id" class="w3-animate-top rounded shadow bg-success text-white d-none">
+            <h3>Success, Log In!</h3>
+        </div>
+
+        <footer class="container-fluid bg-dark p-3 text-white" style="position: absolute; bottom: 0;">
+            <p class="mx-auto my-0 text-center">{{ index . "cookie use info" }}</p>
+        </footer>
+    </div>
+
+
+    <script src="/static/js-pages/login.js"></script>
+</body>
+
+</html>
