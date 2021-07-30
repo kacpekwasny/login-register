@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	cmt "imports/commontools"
 	"net/http"
 	"strings"
+
+	cmt "github.com/kacpekwasny/commontools"
 )
 
 var defaultLang = "en"
