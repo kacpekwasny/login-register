@@ -15,7 +15,7 @@ func newRouter() *mux.Router {
 
 	// static files
 	// const dir = "/media/kacper/Transcend_K1/Home/IT/Code/github.com/kacpekwasny/login-register-page/static/"
-	const dir = "/home/kacper/Code/PRODUCTION/web_server/kwasnyy.pl/static/"
+	var dir = CONFIG_MAP["static dir"]
 	fs := http.FileServer(http.Dir(dir))
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 	return r
