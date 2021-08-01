@@ -4,10 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+
+	cmt "github.com/kacpekwasny/commontools"
 )
 
 func main() {
-	M.LOG_LEVEL = 3
+	level, err := strconv.Atoi(CONFIG_MAP["LOG LEVEL"])
+	cmt.Pc(err)
+	M.LOG_LEVEL = level
 	// preapre templates
 	LoadConfig()
 	var prf = CONFIG_MAP["templates prefix"]
@@ -16,7 +21,5 @@ func main() {
 
 	fmt.Println("Login, register and auth server listening...")
 	_ = M.Start()
-	//fmt.Println(M.DELETE_ALL_RECORDS_IN_DATABASE())
-
 	log.Println(http.ListenAndServe(CONFIG_MAP["listen port"], r))
 }
