@@ -7,16 +7,23 @@ import (
 )
 
 func newRouter() *mux.Router {
-	r := mux.NewRouter().StrictSlash(true)
-	r.HandleFunc("/login", LogRequests(handleGetLogin)).Methods("GET")
-	r.HandleFunc("/login", LogRequests(handlePostLogin)).Methods("POST")
-	r.HandleFunc("/register", LogRequests(handleGetRegister)).Methods("GET")
-	r.HandleFunc("/register", LogRequests(handlePostRegister)).Methods("POST")
+	// logger takes all traffic loggs it, passes it to rtr and the rtr then responds
 
-	// static files
-	// const dir = "/media/kacper/Transcend_K1/Home/IT/Code/github.com/kacpekwasny/login-register-page/static/"
+	rtr := mux.NewRouter().StrictSlash(true)
+	rtr.HandleFunc("/login", LogRequests(handleGetLogin)).Methods("GET")
+	rtr.HandleFunc("/login", LogRequests(handlePostLogin)).Methods("POST")
+	rtr.HandleFunc("/register", LogRequests(handleGetRegister)).Methods("GET")
+	rtr.HandleFunc("/register", LogRequests(handlePostRegister)).Methods("POST")
+
 	var dir = CONFIG_MAP["static dir"]
 	fs := http.FileServer(http.Dir(dir))
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
-	return r
+	rtr.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+
+	logAndRelay := LogRequests(func(w http.ResponseWriter, r *http.Request) {
+		rtr.ServeHTTP(w, r)
+	})
+	logger := mux.NewRouter()
+	logger.PathPrefix("/").HandlerFunc(logAndRelay)
+
+	return logger
 }

@@ -61,7 +61,7 @@ function watchInputs() {
             registerEnable(false)
         return
         }
-        registerEnable(true)
+        if (pasval !== pasval2) registerEnable(true)
 
     }).catch(e => {
         console.error(e)
