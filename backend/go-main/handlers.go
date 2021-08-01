@@ -13,7 +13,7 @@ import (
 func handleGetLogin(w http.ResponseWriter, r *http.Request) {
 	lang := GetLang(r)
 	m := page_map["login_"+lang]
-	ExecuteTemplate(w, "login_bs.html", m)
+	ExecuteTemplate(w, "login.html", m)
 }
 
 func handlePostLogin(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +45,7 @@ func handleGetRegister(w http.ResponseWriter, r *http.Request) {
 	lang := GetLang(r)
 	m := page_map["register_"+lang]
 	w.Header().Set("Access-Control-Allow-Origin", "api.pwnedpasswords.com")
-	ExecuteTemplate(w, "register_bs.html", m)
+	ExecuteTemplate(w, "register.html", m)
 }
 
 func handlePostRegister(w http.ResponseWriter, r *http.Request) {
