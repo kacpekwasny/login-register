@@ -18,8 +18,9 @@ func main() {
 	var prf = CONFIG_MAP["templates prefix"]
 	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
-
-	fmt.Println("Login, register and auth server listening...")
+	fmt.Println("DB manager start...")
 	_ = M.Start()
-	log.Println(http.ListenAndServe(CONFIG_MAP["listen port"], r))
+	fmt.Printf("Listen on port %v \n", CONFIG_MAP["listen port"])
+
+	log.Fatal(http.ListenAndServe(CONFIG_MAP["listen port"], r))
 }
