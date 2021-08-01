@@ -15,6 +15,7 @@ func main() {
 	M.LOG_LEVEL = level
 	// preapre templates
 	LoadConfig()
+	fmt.Println(CONFIG_MAP)
 	var prf = CONFIG_MAP["templates prefix"]
 	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
