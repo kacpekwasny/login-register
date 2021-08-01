@@ -10,12 +10,14 @@ import (
 )
 
 func main() {
-	level, err := strconv.Atoi(CONFIG_MAP["LOG LEVEL"])
-	cmt.Pc(err)
-	M.LOG_LEVEL = level
 	// preapre templates
 	LoadConfig()
 	fmt.Println(CONFIG_MAP)
+
+	level, err := strconv.Atoi(CONFIG_MAP["LOG LEVEL"])
+	cmt.Pc(err)
+	M.LOG_LEVEL = level
+
 	var prf = CONFIG_MAP["templates prefix"]
 	LoadTemplatesFiles(prf, "login.html", "register.html")
 	r := newRouter()
