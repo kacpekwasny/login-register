@@ -26,7 +26,7 @@ func handlePostLogin(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Required json keys: login, password")
 	}
 	err = M.LoginAccount(m["login"], m["password"])
-	fmt.Println("M.LoginAccount(", m["login"], "", err)
+	M.Log2("M.LoginAccount( %v, *** ) -> %v", err)
 	switch err {
 	case nil:
 		// generate token and set cookie to store it
@@ -51,12 +51,12 @@ func handleGetRegister(w http.ResponseWriter, r *http.Request) {
 func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	m, err := cmt.Json2mapSS(r)
 	if err != nil {
-		fmt.Println("Json2mapSS internal error")
+		M.Log1("Json2mapSS internal error")
 		Respond(w, r, "internal_error", nil)
 	}
 	missing := cmt.CheckKeys(m, "login", "password")
 	if len(missing) > 0 {
-		fmt.Println("Required json keys: login, password", m, "internal error")
+		M.Log1("JSON missing keys! Required: 'login', 'password'. The map: %#v", m)
 		Respond(w, r, "internal_error", nil)
 	}
 	login := m["login"]
@@ -64,16 +64,16 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	err = PasswordPwned(paswd)
 	if err != nil {
 		if err == ErrPwned {
-			fmt.Println("PasswordPwned error")
+			M.Log3("PasswordPwned: %v", paswd)
 			Respond(w, r, "paswd_pwned", nil)
 			return
 		}
-		fmt.Println("PasswordPwned internal error:", err)
+		M.Log1("During PasswordPwned( *** ) error occured: %v", err)
 		Respond(w, r, "internal_error", nil)
 		return
 	}
 	err = M.RegisterAccount(login, paswd)
-	fmt.Println("M.RegisterAccount(", login, ", XXXX )", err)
+	M.Log1("RegusterAccount( %v, *** ) -> %v", login, err)
 	switch err {
 	case nil:
 		Respond(w, r, "ok", nil)
@@ -84,7 +84,6 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	case asrv.ErrPassRequirements:
 		Respond(w, r, "pass_requirements", nil)
 	default:
-		fmt.Println("handlePostRegister", err)
 		Respond(w, r, "internal_error", nil)
 	}
 }

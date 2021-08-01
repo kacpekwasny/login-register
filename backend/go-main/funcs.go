@@ -26,11 +26,9 @@ func Respond(w http.ResponseWriter, r *http.Request, msg_title string, more inte
 		"err_code": err_code,
 		//		"msg":      msg,
 	}
-	fmt.Println(resp)
 	if more != nil {
 		resp["more"] = more
 	}
-	fmt.Println(resp)
 	cmt.Pc(json.NewEncoder(w).Encode(resp))
 }
 
@@ -53,8 +51,6 @@ func PasswordPwned(pass string) error {
 	hash := strings.ToUpper(fmt.Sprintf("%x", sha.Sum(nil)))
 	hash5 := hash[:5]
 	hashend := hash[5:]
-	fmt.Println(hash5, hashend)
-	fmt.Println(hash)
 	r, err := http.Get("https://api.pwnedpasswords.com/range/" + hash5)
 	if err != nil {
 		return err

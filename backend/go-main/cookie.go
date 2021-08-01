@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -17,7 +16,6 @@ func GetLang(r *http.Request) string {
 		return defaultLang
 	}
 	lang := strings.Split(ck.String(), "=")[1]
-	fmt.Println(lang)
 	if _, is := cmt.InSlice(lang, allowedLangs); is {
 		return lang
 	}
