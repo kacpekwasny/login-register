@@ -13,7 +13,7 @@ const loginBtn = document.getElementById("login-button-id");
 // Add event listeners
 
 // login on ENTER-keydown
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13 || event.key === 13 || event.keyIdentifier === 13) {
         event.preventDefault();
         loginBtn.click();

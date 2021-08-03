@@ -8,13 +8,16 @@ const passInp2 = document.getElementById('password-input-2-id');
 const passErr = document.getElementById('password-err-id');
 const registerBtn = document.getElementById("register-button-id");
 
+// check password for pwned only once
+var password_not_pwned = " oa89 hdaiphu cp9<a8wh (P*j hapw8h a98wd pahsd pw98a dhpAIHJD pwa89"
+
 // const checkMark = document.getElementById("check-mark-id");
 
 ////////////////////////////////////////////////////////////////
 // Add event listeners
 
 // register on keydown
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13 || event.key === 13 || event.keyIdentifier === 13) {
         event.preventDefault();
         registerBtn.click();
@@ -54,13 +57,17 @@ function watchInputs() {
         registerEnable(false)
         // return
     }
-
+    if (password_not_pwned===pasval) {
+        if (pasval === pasval2) registerEnable(true)
+        return
+    }
     passwordPwned(pasval).then(pwned => {
         if (pwned) {
             displayInfo(passErr, "Chose a different password, this one is popular", "Wybierz inne hasło, to jest popularne")
             registerEnable(false)
         return
         }
+        password_not_pwned = pasval
         if (pasval === pasval2) registerEnable(true)
 
     }).catch(e => {

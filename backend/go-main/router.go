@@ -10,10 +10,10 @@ func newRouter() *mux.Router {
 	// logger takes all traffic loggs it, passes it to rtr and the rtr then responds
 
 	rtr := mux.NewRouter().StrictSlash(true)
-	rtr.HandleFunc("/login", LogRequests(handleGetLogin)).Methods("GET")
-	rtr.HandleFunc("/login", LogRequests(handlePostLogin)).Methods("POST")
-	rtr.HandleFunc("/register", LogRequests(handleGetRegister)).Methods("GET")
-	rtr.HandleFunc("/register", LogRequests(handlePostRegister)).Methods("POST")
+	rtr.HandleFunc("/login", handleGetLogin).Methods("GET")
+	rtr.HandleFunc("/login", handlePostLogin).Methods("POST")
+	rtr.HandleFunc("/register", handleGetRegister).Methods("GET")
+	rtr.HandleFunc("/register", handlePostRegister).Methods("POST")
 
 	dir, ok := CONFIG_MAP["static dir"]
 	if ok {

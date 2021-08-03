@@ -26,7 +26,7 @@ func handlePostLogin(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Required json keys: login, password")
 	}
 	err = M.LoginAccount(m["login"], m["password"])
-	M.Log2("M.LoginAccount( %v, *** ) -> %v", err)
+	M.Log2("M.LoginAccount( %v, *** ) -> %v", m["login"], err)
 	switch err {
 	case nil:
 		// generate token and set cookie to store it
@@ -62,7 +62,7 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	login := m["login"]
 	paswd := m["password"]
 	err = PasswordPwned(paswd)
-	if err == ErrPwned {
+	if err != nil && err == ErrPwned {
 		M.Log3("PasswordPwned: %v", paswd)
 		Respond(w, r, "paswd_pwned", nil)
 		return
@@ -71,7 +71,7 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = M.RegisterAccount(login, paswd)
-	M.Log1("RegusterAccount( %v, *** ) -> %v", login, err)
+	M.Log1("RegisterAccount( %v, *** ) -> %v", login, err)
 	switch err {
 	case nil:
 		Respond(w, r, "ok", nil)
