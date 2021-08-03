@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -20,4 +21,16 @@ func GetLang(r *http.Request) string {
 		return lang
 	}
 	return defaultLang
+}
+
+func Cookie2Str(r *http.Request) string {
+	ret := ""
+	for _, c := range r.Cookies() {
+		var val = c.Value
+		if len(c.Value) > 10 && c.Name != "login" {
+			val = c.Value[:10] + "..."
+		}
+		ret += fmt.Sprintf("%v=%v;  ", c.Name, val)
+	}
+	return ret
 }
