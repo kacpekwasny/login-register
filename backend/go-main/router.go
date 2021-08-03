@@ -15,15 +15,16 @@ func newRouter() *mux.Router {
 	rtr.HandleFunc("/register", LogRequests(handleGetRegister)).Methods("GET")
 	rtr.HandleFunc("/register", LogRequests(handlePostRegister)).Methods("POST")
 
-	var dir = CONFIG_MAP["static dir"]
-	fs := http.FileServer(http.Dir(dir))
-	rtr.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+	dir, ok := CONFIG_MAP["static dir"]
+	if ok {
+		fs := http.FileServer(http.Dir(dir))
+		rtr.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+	}
 
-	logAndRelay := LogRequests(func(w http.ResponseWriter, r *http.Request) {
-		rtr.ServeHTTP(w, r)
-	})
+	// All requests are first handled by logger which then relays them to rtr.
+	// logger loggsdata from http.Request
+	logAndRelay := LogRequests(rtr.ServeHTTP)
 	logger := mux.NewRouter()
 	logger.PathPrefix("/").HandlerFunc(logAndRelay)
-
 	return logger
 }

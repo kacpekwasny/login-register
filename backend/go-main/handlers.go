@@ -62,16 +62,14 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	login := m["login"]
 	paswd := m["password"]
 	err = PasswordPwned(paswd)
-	if err != nil {
-		if err == ErrPwned {
-			M.Log3("PasswordPwned: %v", paswd)
-			Respond(w, r, "paswd_pwned", nil)
-			return
-		}
-		M.Log1("During PasswordPwned( *** ) error occured: %v", err)
-		Respond(w, r, "internal_error", nil)
+	if err == ErrPwned {
+		M.Log3("PasswordPwned: %v", paswd)
+		Respond(w, r, "paswd_pwned", nil)
 		return
+	} else {
+		M.Log1("During PasswordPwned( *** ) error occured: %v", err)
 	}
+
 	err = M.RegisterAccount(login, paswd)
 	M.Log1("RegusterAccount( %v, *** ) -> %v", login, err)
 	switch err {

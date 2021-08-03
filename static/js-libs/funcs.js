@@ -8,10 +8,8 @@ function hasProperties(obj, properties) {
         }       
     }
     if (lacking_props.length) {
-        console.log("hasProperties return false, ", lacking_props);
         return [false, lacking_props]
     }
-    console.log("hasProperties return true, ", undefined);
     return [true, undefined]
 }
 
@@ -55,10 +53,8 @@ function hasProperties(obj, properties) {
         }       
     }
     if (lacking_props.length) {
-        console.log("hasProperties return false, ", lacking_props);
         return [false, lacking_props]
     }
-    console.log("hasProperties return true, ", undefined);
     return [true, undefined]
 }
 

@@ -61,11 +61,11 @@ function watchInputs() {
             registerEnable(false)
         return
         }
-        if (pasval !== pasval2) registerEnable(true)
+        if (pasval === pasval2) registerEnable(true)
 
     }).catch(e => {
         console.error(e)
-        registerEnable(true)
+        if (pasval === pasval2) registerEnable(true)
     })
 
 
@@ -82,11 +82,9 @@ function registerEnable(on) {
 }
 
 function clickRegisterBtn() {
-    console.log("clicked register btn")
-    if (registerBtn.classList.contains("w3-disabled")) {
+    if (registerBtn.classList.contains("disabled")) {
         return
     }
-    console.log("  sending request")
     sendRegister(loginInp.value, passInp.value);
 }
 
@@ -103,7 +101,6 @@ function sendRegister(login, password) {
         .then(res => {
             if (res.status != 200) {
                 displayInfo(passErr, "Internal error: " + res.status, "Błąd wewnętrzny" + res.status);
-                console.log(res);
             }
             res.json().then(j => {
                 var has, lacking, tmp;
@@ -128,6 +125,7 @@ function sendRegister(login, password) {
                         return
                     case 8:
                         displayInfo(passErr, "Chose a different password, this one is popular", "Wybierz inne hasło, to jest popularne")
+                        return
                     default:
                         displayInfo(passErr, "Internal error", "Błąd wewnętrzny");
                         return

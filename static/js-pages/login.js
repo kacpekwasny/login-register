@@ -80,7 +80,6 @@ function sendLogin(login, password) {
         .then(res => {
             if (res.status != 200) {
                 displayInfo(passErr, "Internal error: " + res.status, "Błąd wewnętrzny" + res.status);
-                console.log(res);
             }
             res.json().then(j => {
                 var has, lacking, tmp;
