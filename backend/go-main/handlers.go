@@ -61,6 +61,10 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	}
 	login := m["login"]
 	paswd := m["password"]
+	if invalid := LoginValidChars(login); len(invalid) > 0 {
+		Respond(w, r, "invalid_chars", makeMap("invalid_chars", invalid))
+		return
+	}
 	err = PasswordPwned(paswd)
 	if err == ErrPwned {
 		M.Log3("PasswordPwned: %v", paswd)

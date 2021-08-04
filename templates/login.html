@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ index . "title"  }}</title>
+    <title>{{ index . "title" }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/static/css-pages/login-register.css">
@@ -15,6 +15,7 @@
     <script src="/static/js-libs/cookie-funcs.js"></script>
     <script src="/static/js-libs/w3-funcs.js"></script>
     <script src="/static/js-libs/funcs.js"></script>
+    <script src="/static/js-libs/persist-data.js"></script>
 </head>
 
 <body>
@@ -26,11 +27,13 @@
                 <a class="btn bg-white" href="/register">{{ index . "nav register" }}</a>
             </div>
             <div class="btn-group m-1">
-                <button class="btn btn-danger"  onclick="document.cookie = 'lang=pl; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);" >Polski</button>
-                <button class="btn btn-primary" onclick="document.cookie = 'lang=en; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);">English</button>
+                <button class="btn btn-danger"
+                    onclick="document.cookie = 'lang=pl; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);">Polski</button>
+                <button class="btn btn-primary"
+                    onclick="document.cookie = 'lang=en; expires=Fri, 31 Dec 9999 23:59:59 GMT'; window.location.reload(true);">English</button>
             </div>
         </nav>
-    
+
         <div id="inputs-card" class="card boreder-2 boreder-dark shadow mx-auto">
             <div id="card-header-id d-flex" class="card-header">
                 <h3 class="text-center my-auto">{{ index . "title" }}</h3>
@@ -49,8 +52,17 @@
                     </div>
                     <input id="password-input-id" name="password" type="password" class="form-control">
                 </div>
-                <label id="pass-err-id" class="text-danger"></label>
-                <button id="login-button-id" onclick="clickLoginBtn()" class="btn btn-success float-right px-4 disabled">{{index . "log in action" }}</button>
+                <div class="d-flex justify-content-end py-1">
+                    <div class="form-check">
+                        <input id="remember-me-id" onclick="setRememberMe()" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="remember-me-id">{{index . "remember me"}}</label>
+                    </div>
+                </div>
+                <div class="container py-1">
+                    <label id="pass-err-id" class="text-danger"></label>
+                    <button id="login-button-id" onclick="clickLoginBtn()"
+                        class="btn btn-success float-right px-4 disabled">{{index . "log in action" }}</button>
+                </div>
             </div>
 
         </div>

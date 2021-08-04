@@ -42,6 +42,11 @@ function watchInputs() {
     const pasval2 = passInp2.value;
     loginErr.innerText = "";
     passErr.innerText = "";
+    const invalid = loginValidChars(logval)
+    if (invalid.length>0) {
+        displayInfo(loginErr, "Do not use these characters in login: "+invalid, "Nie używaj tych znaków w loginie: "+invalid)
+        return
+    }
     if (logval.length < 2) {
         displayInfo(loginErr, "Login has to be at least 2 charachters", "Login musi mieć co najmniej 2 znaki")
         registerEnable(false)
@@ -76,6 +81,17 @@ function watchInputs() {
     })
 
 
+}
+
+function loginValidChars(login) {
+    const valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_ "
+	var invalid = ""
+	for (let ch of login) {
+		if (!valid.includes(ch)) {
+			invalid += `'${ch}', `
+		}
+	}
+	return invalid
 }
 
 function registerEnable(on) {
@@ -132,6 +148,9 @@ function sendRegister(login, password) {
                         return
                     case 8:
                         displayInfo(passErr, "Chose a different password, this one is popular", "Wybierz inne hasło, to jest popularne")
+                        return
+                    case 9:
+                        displayInfo(loginErr, "Do not use these characters in login: "+j.more.invalid_chars, "Nie używaj tych znaków w loginie: "+j.more.invalid_chars)
                         return
                     default:
                         displayInfo(passErr, "Internal error", "Błąd wewnętrzny");

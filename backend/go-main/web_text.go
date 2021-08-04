@@ -35,6 +35,7 @@ var login_en = map[string]string{
 	"password input":  "Password",
 	"log in action":   action_log_in_en,
 	"cookie use info": cookie_info_en,
+	"remember me":     "Remember me",
 }
 
 var login_pl = map[string]string{
@@ -45,6 +46,7 @@ var login_pl = map[string]string{
 	"password input":  "Hasło",
 	"log in action":   action_log_in_pl,
 	"cookie use info": cookie_info_pl,
+	"remember me":     "Zapamiętaj mnie",
 }
 
 var register_en = map[string]string{

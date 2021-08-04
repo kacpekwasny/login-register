@@ -70,3 +70,16 @@ func PasswordPwned(pass string) error {
 	}
 	return nil
 }
+
+// return string of invalid charachters
+func LoginValidChars(login string) string {
+	const valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_ "
+	var invalid = ""
+	for _, ch := range login {
+		chs := string(ch)
+		if !strings.Contains(valid, chs) {
+			invalid += fmt.Sprintf("'%v', ", chs)
+		}
+	}
+	return invalid
+}

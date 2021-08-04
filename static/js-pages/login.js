@@ -1,11 +1,12 @@
 
 ////////////////////////////////////////////////////////////////
 // Get needed elements once
-const loginInp = document.getElementById('login-input-id');
-const loginErr = document.getElementById("login-err-id");
-const passInp = document.getElementById('password-input-id');
-const passErr = document.getElementById("pass-err-id");
-const loginBtn = document.getElementById("login-button-id");
+const loginInp = document.getElementById('login-input-id')
+const loginErr = document.getElementById("login-err-id")
+const passInp = document.getElementById('password-input-id')
+const passErr = document.getElementById("pass-err-id")
+const loginBtn = document.getElementById("login-button-id")
+const rememberMe = document.getElementById("remember-me-id")
 
 // const checkMark = document.getElementById("check-mark-id");
 
@@ -111,8 +112,8 @@ function sendLogin(login, password) {
 
                 }
                 // user succesfuly logged in, show check mark
-                setck("login", login)
-                setck("token", j.more.token)
+                setLoginAndToken(login, j.more.token)
+                setck
                 var link = getck("redirect_to");
                 if (link == "") {
                     link = "/";
@@ -129,8 +130,15 @@ function sendLogin(login, password) {
         });
 }
 
-// if user was redirected from /register he will have 'new_account=true' in cookies.
-// display blue info panel
+function setRememberMe() {
+    if (rememberMe.checked) {
+        localStorage.setItem("remember me", "true")
+    } else {
+        localStorage.setItem("remember me", "false")
+    }
+}
+
+// if user was redirected from /register he will have 'new_account=true' param.
 function start() {
     var url = new URL(window.location.href)
     var newac = url.searchParams.get("new_account")
@@ -145,10 +153,15 @@ function start() {
     }
 }
 
+function main() {
+    if (localStorage.getItem("remember me")==="true") {
+        rememberMe.checked = true
+    }
+}
 
 
 ////////////////////////
 // ————— MAIN ––––––– //
-start();
-
+start()
+main()
 
