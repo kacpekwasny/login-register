@@ -11,6 +11,7 @@ func handleGetIsAuthenticated(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		M.Log1("Json2mapSS internal error")
 		Respond(w, r, "internal_error", nil)
+		return
 	}
 	missing := cmt.CheckKeys(m, "login", "token")
 	if len(missing) > 0 {
@@ -30,6 +31,7 @@ func handleGetAccountJSON(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		M.Log1("Json2mapSS internal error")
 		Respond(w, r, "internal_error", nil)
+		return
 	}
 	missing := cmt.CheckKeys(m, "login", "token")
 	if len(missing) > 0 {
