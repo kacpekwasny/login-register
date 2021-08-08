@@ -37,3 +37,7 @@ html, body {
 .input-group-text {
     width: 6em;
 }
+
+.not-allowed {
+    cursor: not-allowed;
+}

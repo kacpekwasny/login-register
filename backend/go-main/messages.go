@@ -26,6 +26,7 @@ var ErrCodes = map[string]int{
 	"pass_requirements":  7,
 	"paswd_pwned":        8,
 	"invalid_chars":      9,
+	"unauth":             10,
 }
 
 func GetErrCode(message_title string) int {

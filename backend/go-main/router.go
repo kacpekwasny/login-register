@@ -14,6 +14,8 @@ func newRouter() *mux.Router {
 	rtr.HandleFunc("/login", handlePostLogin).Methods("POST")
 	rtr.HandleFunc("/register", handleGetRegister).Methods("GET")
 	rtr.HandleFunc("/register", handlePostRegister).Methods("POST")
+	rtr.HandleFunc("/account", handleGetAccount).Methods("GET")
+	rtr.HandleFunc("/account", handlePostAccount).Methods("POST")
 
 	dir, ok := CONFIG_MAP["static dir"]
 	if ok {

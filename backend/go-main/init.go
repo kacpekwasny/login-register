@@ -49,6 +49,6 @@ func InitManager() *asrv.Manager {
 func init() {
 	// preapre templates
 	var prf = CONFIG_MAP["templates prefix"]
-	LoadTemplatesFiles(prf, "login.html", "register.html")
+	LoadTemplatesFiles(prf, "login.html", "register.html", "account.html")
 	fmt.Println("end init")
 }

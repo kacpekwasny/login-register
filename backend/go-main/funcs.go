@@ -83,3 +83,18 @@ func LoginValidChars(login string) string {
 	}
 	return invalid
 }
+
+func UpdateLastLoginByRequest(r *http.Request) {
+	clog, err := r.Cookie("login")
+	if err != nil {
+		return
+	}
+	ctok, err := r.Cookie("token")
+	if err != nil {
+		return
+	}
+	login, token := clog.Value, ctok.Value
+	if M.IsAuthenticated(login, token) == nil {
+		M.UpdateLastLogin2Now(login)
+	}
+}

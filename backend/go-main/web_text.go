@@ -25,6 +25,8 @@ var page_map = map[string]map[string]string{
 	"login_pl":    login_pl,
 	"register_en": register_en,
 	"register_pl": register_pl,
+	"account_en":  account_en,
+	"account_pl":  account_pl,
 }
 
 var login_en = map[string]string{
@@ -69,4 +71,28 @@ var register_pl = map[string]string{
 	"repeat password input":  "Powtórz",
 	"register action button": action_new_acc_pl,
 	"cookie use info":        cookie_info_pl,
+}
+
+var account_en = map[string]string{
+	"title":                     "Account",
+	"nav go home":               nav_go_home_en,
+	"nav log out":               "Log out",
+	"account security settings": "Change login and password",
+	"new password":              "New password",
+	"repeat new password":       "Repeat it",
+	"current password":          "Current password",
+	"commit changes btn":        "Confirm",
+	"cookie use info":           cookie_info_en,
+}
+
+var account_pl = map[string]string{
+	"title":                     "Konto",
+	"nav go home":               nav_go_home_pl,
+	"nav log out":               "Wyloguj",
+	"account security settings": "Zmień login i hasło",
+	"new password":              "Nowe hasło",
+	"repeat new password":       "Powtórz je",
+	"current password":          "Obecne hasło",
+	"commit changes btn":        "Zatwierdź",
+	"cookie use info":           cookie_info_pl,
 }

@@ -114,11 +114,11 @@ function sendLogin(login, password) {
                 // user succesfuly logged in, show check mark
                 setLoginAndToken(login, j.more.token)
                 setck
-                var link = getck("redirect_to");
-                if (link == "") {
+                var link = sessionStorage.getItem("redirect_to");
+                if (link == null) {
                     link = "/";
                 } else {
-                    delck("redirect_to");
+                    sessionStorage.removeItem("redirect_to");
                 }
                 window.location.href = link;
             });

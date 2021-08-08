@@ -66,7 +66,7 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = PasswordPwned(paswd)
-	if err == ErrPwned {
+	if err == ErrPwned || len(paswd) < 7 {
 		M.Log3("PasswordPwned: %v", paswd)
 		Respond(w, r, "paswd_pwned", nil)
 		return
@@ -85,6 +85,135 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 		Respond(w, r, "login_requirements", nil)
 	case asrv.ErrPassRequirements:
 		Respond(w, r, "pass_requirements", nil)
+	default:
+		Respond(w, r, "internal_error", nil)
+	}
+}
+
+func handleGetAccount(w http.ResponseWriter, r *http.Request) {
+	// redirect '/' if user not logged in
+	UpdateLastLoginByRequest(r)
+	clog, err := r.Cookie("login")
+	if err != nil {
+		M.Log2("Request cookie without login")
+		http.Redirect(w, r, "/login", 302)
+		return
+	}
+	ctok, err := r.Cookie("token")
+	if err != nil {
+		M.Log2("Request cookie without token")
+		http.Redirect(w, r, "/login", 302)
+		return
+	}
+	login, token := clog.Value, ctok.Value
+	err = M.IsAuthenticated(login, token)
+	if err != nil {
+		M.Log2("%v is not authenticated, err: %v", login, err)
+		http.Redirect(w, r, "/login", 302)
+		return
+	}
+
+	// return page
+	lang := GetLang(r)
+	m := page_map["account_"+lang]
+	w.Header().Set("Access-Control-Allow-Origin", "api.pwnedpasswords.com")
+	ExecuteTemplate(w, "account.html", m)
+}
+
+func handlePostAccount(w http.ResponseWriter, r *http.Request) {
+	m, err := cmt.Json2mapSS(r)
+	if err != nil {
+		M.Log1("Json2mapSS internal error")
+		Respond(w, r, "internal_error", nil)
+		return
+	}
+	missing := cmt.CheckKeys(m, "action")
+	if len(missing) > 0 {
+		M.Log1("JSON missing keys! Required: 'login', 'password'. The map: %#v", m)
+		Respond(w, r, "internal_error", nil)
+		return
+	}
+	switch m["action"] {
+	case "change":
+		missing := cmt.CheckKeys(m, "login", "password", "newLogin", "newPassword")
+		if len(missing) > 0 {
+			M.Log1("JSON missing keys! Required: login, password, newLogin, newPassword. The map: %#v", m)
+			Respond(w, r, "internal_error", nil)
+			return
+		}
+		// authenticate
+		login, paswd := m["login"], m["password"]
+		acc, err := M.GetAccount(login)
+		if err != nil {
+			Respond(w, r, "login_not_found", nil)
+			return
+		}
+		if !acc.PasswordMatches(paswd) {
+			Respond(w, r, "pass_missmatch", nil)
+			return
+		}
+		nlog, npas := m["newLogin"], m["newPassword"]
+		M.Log1("login: '%v', nlog: '%v'", login, nlog)
+		if len(nlog) > 0 {
+			M.Log3("Change login")
+			if invalid := LoginValidChars(nlog); len(invalid) > 0 {
+				Respond(w, r, "invalid_chars", makeMap("invalid_chars", invalid))
+				return
+			}
+			if len(nlog) < 2 {
+				Respond(w, r, "invalid_chars", nil)
+				return
+			}
+			err = M.UpdateLogin(login, nlog)
+			M.Log1("UpdateLogin( %v, %v ) -> %v", login, nlog, err)
+			switch err {
+			case nil:
+				login = nlog
+				break
+			case asrv.ErrLoginInUse:
+				Respond(w, r, "login_in_use", nil)
+				return
+			case asrv.ErrLoginRequirements:
+				Respond(w, r, "login_requirements", nil)
+				return
+			default:
+				Respond(w, r, "internal_error", nil)
+				return
+			}
+		}
+		if len(npas) > 0 {
+			M.Log3("Change password")
+			err = PasswordPwned(npas)
+			if err == ErrPwned {
+				M.Log3("PasswordPwned: %v", paswd)
+				Respond(w, r, "paswd_pwned", nil)
+				return
+			} else if err != nil {
+				M.Log1("During PasswordPwned( *** ) error occured: %v", err)
+			}
+			if len(npas) < 7 {
+				Respond(w, r, "pass", nil)
+			}
+			acc.SetPassHash(npas)
+			err = M.UpdatePassHash(login, acc.Pass_hash)
+			M.Log1("UpdatePassHash( %v, ***** ) -> %v", login, err)
+			switch err {
+			case nil:
+				break
+			case asrv.ErrLoginInUse:
+				Respond(w, r, "login_in_use", nil)
+				return
+			case asrv.ErrPassRequirements:
+				Respond(w, r, "pass_requirements", nil)
+				return
+			default:
+				Respond(w, r, "internal_error", nil)
+				return
+			}
+		}
+		Respond(w, r, "ok", nil)
+		return
+
 	default:
 		Respond(w, r, "internal_error", nil)
 	}

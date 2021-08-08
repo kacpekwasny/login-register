@@ -83,17 +83,6 @@ function watchInputs() {
 
 }
 
-function loginValidChars(login) {
-    const valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_ "
-	var invalid = ""
-	for (let ch of login) {
-		if (!valid.includes(ch)) {
-			invalid += `'${ch}', `
-		}
-	}
-	return invalid
-}
-
 function registerEnable(on) {
     if (on) {
         registerBtn.classList.remove("disabled")
@@ -157,8 +146,6 @@ function sendRegister(login, password) {
                         return
 
                 }
-                // user succesfuly registered, show check mark
-                // show(checkMark);
                 window.location.href = "/login?new_account=true"
             });
         })

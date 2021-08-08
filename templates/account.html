@@ -6,16 +6,19 @@
     <title>{{ index . "title" }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/css-pages/login-register.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css-pages/login-register.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/static/js-libs/cookie-funcs.js"></script>
+    <script src="/static/js-libs/login-requirements.js"></script>
     <script src="/static/js-libs/w3-funcs.js"></script>
     <script src="/static/js-libs/funcs.js"></script>
     <script src="/static/js-libs/persist-data.js"></script>
+    <script src="/static/js-libs/EXEC-load-credentials-on-start.js"></script>
+    <script src="/static/js-libs/password-security.js"></script>
 </head>
 
 <body>
@@ -23,8 +26,7 @@
         <nav class="navbar bg-dark" style="width: 100%;">
             <div class="btn-group m-1">
                 <a class="btn bg-white" href="/">{{index . "nav go home" }}</a>
-                <a class="btn btn-primary" href="#">{{index . "nav log in" }}</a>
-                <a class="btn bg-white" href="/register">{{ index . "nav register" }}</a>
+                <button id="log-out-btn-id" class="btn btn-primary" onclick="clickLogoutBtn()">{{index . "nav log out" }}</button>
             </div>
             <div class="btn-group m-1">
                 <button class="btn btn-danger"
@@ -35,49 +37,34 @@
         </nav>
 
         <div id="inputs-card" class="card boreder-2 boreder-dark shadow mx-auto">
-            <div id="card-header-id d-flex" class="card-header">
-                <h3 class="text-center my-auto">{{ index . "title" }}</h3>
+            <div id="card-header-id" class="card-header">
+                <h3 class="text-center my-auto">{{ index . "account security settings" }}</h3>
             </div>
             <div class="card-body">
+                <div class="input-group-vertical">
+                    <input id="new-login-input-id" class="form-control" placeholder="" name="login" type="text">
+                    <label id="new-login-err-id" class="text-danger"></label>
+                    <div class="input-group my-2">
+                        <input id="new-password-input-id" class="form-control" placeholder="{{ index . "new password" }}" name="login" type="password">
+                        <input id="new-password-2-input-id" class="form-control" placeholder="{{ index . "repeat new password" }}" name="login" type="password">
+                    </div>
+                    <label id="new-password-err-id" class="text-danger"></label>
+                </div>
                 <div class="input-group my-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Login</span>
-                    </div>
-                    <input id="login-input-id" class="form-control" name="login" type="text" >
+                    <input id="password-input-id" class="form-control" placeholder="{{ index . "current password" }}" name="login" type="password">
+                    <button id="commit-change-btn-id" class="not-allowed btn btn-info float-right disabled not-allowed" onclick="clickCommitBtn()">{{ index . "commit changes btn" }}</button>
                 </div>
-                <label id="login-err-id" class="text-danger"></label>
-                <div class="input-group my-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">{{ index . "password input" }}</span>
-                    </div>
-                    <input id="password-input-id" class="form-control" name="password" type="password">
-                </div>
-                <div class="d-flex justify-content-end py-1">
-                    <div class="form-check">
-                        <input id="remember-me-id" onclick="setRememberMe()" class="form-check-input" type="checkbox">
-                        <label class="form-check-label" for="remember-me-id">{{index . "remember me"}}</label>
-                    </div>
-                </div>
-                <div class="container py-1">
-                    <label id="pass-err-id" class="text-danger"></label>
-                    <button id="login-button-id" onclick="clickLoginBtn()"
-                        class="btn btn-success float-right px-4 disabled">{{index . "log in action" }}</button>
-                </div>
+                <label id="password-err-id" class="text-danger"></label>
             </div>
 
         </div>
-
-        <div id="success-div-id" class="w3-animate-top rounded shadow bg-success text-white d-none">
-            <h3>Success!</h3>
-        </div>
-
         <footer class="container-fluid bg-dark p-3 text-white" style="position: absolute; bottom: 0;">
             <p class="mx-auto my-0 text-center">{{ index . "cookie use info" }}</p>
         </footer>
     </div>
 
 
-    <script src="/static/js-pages/login.js"></script>
+    <script src="/static/js-pages/account.js"></script>
 </body>
 
 </html>
