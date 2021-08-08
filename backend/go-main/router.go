@@ -30,3 +30,10 @@ func newRouter() *mux.Router {
 	logger.PathPrefix("/").HandlerFunc(logAndRelay)
 	return logger
 }
+
+func restAPIrouter() *mux.Router {
+	rtr := mux.NewRouter().StrictSlash(true)
+	rtr.HandleFunc("/isAuthenticated", handleGetIsAuthenticated).Methods("GET")
+	rtr.HandleFunc("/getAccount", handleGetAccountJSON).Methods("GET")
+	return rtr
+}

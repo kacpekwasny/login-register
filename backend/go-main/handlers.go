@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	cmt "github.com/kacpekwasny/commontools"
@@ -19,11 +18,16 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request) {
 func handlePostLogin(w http.ResponseWriter, r *http.Request) {
 	m, err := cmt.Json2mapSS(r)
 	if err != nil {
-		fmt.Fprint(w, "Cannot decode json")
+		M.Log1("Json2mapSS internal error")
+		Respond(w, r, "internal_error", nil)
+		return
 	}
+
 	missing := cmt.CheckKeys(m, "login", "password")
 	if len(missing) > 0 {
-		fmt.Fprint(w, "Required json keys: login, password")
+		M.Log1("JSON missing keys! Required: 'login', 'password'. The map: %#v", m)
+		Respond(w, r, "internal_error", nil)
+		return
 	}
 	err = M.LoginAccount(m["login"], m["password"])
 	M.Log2("M.LoginAccount( %v, *** ) -> %v", m["login"], err)
@@ -53,11 +57,13 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		M.Log1("Json2mapSS internal error")
 		Respond(w, r, "internal_error", nil)
+		return
 	}
 	missing := cmt.CheckKeys(m, "login", "password")
 	if len(missing) > 0 {
 		M.Log1("JSON missing keys! Required: 'login', 'password'. The map: %#v", m)
 		Respond(w, r, "internal_error", nil)
+		return
 	}
 	login := m["login"]
 	paswd := m["password"]
@@ -96,20 +102,20 @@ func handleGetAccount(w http.ResponseWriter, r *http.Request) {
 	clog, err := r.Cookie("login")
 	if err != nil {
 		M.Log2("Request cookie without login")
-		http.Redirect(w, r, "/login", 302)
+		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
 		return
 	}
 	ctok, err := r.Cookie("token")
 	if err != nil {
 		M.Log2("Request cookie without token")
-		http.Redirect(w, r, "/login", 302)
+		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
 		return
 	}
 	login, token := clog.Value, ctok.Value
 	err = M.IsAuthenticated(login, token)
 	if err != nil {
 		M.Log2("%v is not authenticated, err: %v", login, err)
-		http.Redirect(w, r, "/login", 302)
+		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
 		return
 	}
 
