@@ -102,20 +102,20 @@ func handleGetAccount(w http.ResponseWriter, r *http.Request) {
 	clog, err := r.Cookie("login")
 	if err != nil {
 		M.Log2("Request cookie without login")
-		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
+		http.Redirect(w, r, "/login", http.StatusUnauthorized)
 		return
 	}
 	ctok, err := r.Cookie("token")
 	if err != nil {
 		M.Log2("Request cookie without token")
-		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
+		http.Redirect(w, r, "/login", http.StatusUnauthorized)
 		return
 	}
 	login, token := clog.Value, ctok.Value
 	err = M.IsAuthenticated(login, token)
 	if err != nil {
 		M.Log2("%v is not authenticated, err: %v", login, err)
-		http.Redirect(w, r, "/login", http.StatusPermanentRedirect)
+		http.Redirect(w, r, "/login", http.StatusUnauthorized)
 		return
 	}
 

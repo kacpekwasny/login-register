@@ -14,6 +14,7 @@ func main() {
 	fmt.Println("DB manager start...")
 	_ = M.Start()
 	authserv2.CONFIG.MAX_TOKEN_AGE = time.Hour
+	authserv2.CONFIG.TOKEN_LENGTH = 80
 	fmt.Printf("Main router listen on port %v \n", CONFIG_MAP["listen port"])
 	fmt.Printf("API router listen on port %v \n", CONFIG_MAP["api listen address and port"])
 	r := newRouter()
