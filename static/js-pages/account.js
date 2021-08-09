@@ -117,10 +117,9 @@ function clickLogoutBtn() {
         credentials: "include"
     })
     .then(res=>{
-        console.log(res)
+        removeLoginAndToken()
+        window.location.href = "/login"
     })
-    removeLoginAndToken()
-    window.location.href = "/login"
 }
 
 function sendChange() {
