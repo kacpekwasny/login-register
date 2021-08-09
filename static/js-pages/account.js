@@ -113,6 +113,12 @@ function clickCommitBtn() {
 }
 
 function clickLogoutBtn() {
+    fetch("/logout", {
+        credentials: "include"
+    })
+    .then(res=>{
+        console.log(res)
+    })
     removeLoginAndToken()
     window.location.href = "/login"
 }

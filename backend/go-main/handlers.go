@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	cmt "github.com/kacpekwasny/commontools"
@@ -97,28 +98,8 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetAccount(w http.ResponseWriter, r *http.Request) {
-	// redirect '/' if user not logged in
-	UpdateLastLoginByRequest(r)
-	clog, err := r.Cookie("login")
-	if err != nil {
-		M.Log2("Request cookie without login")
-		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-		return
-	}
-	ctok, err := r.Cookie("token")
-	if err != nil {
-		M.Log2("Request cookie without token")
-		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-		return
-	}
-	login, token := clog.Value, ctok.Value
-	err = M.IsAuthenticated(login, token)
-	if err != nil {
-		M.Log2("%v is not authenticated, err: %v", login, err)
-		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-		return
-	}
-
+	// redirect '/login' if user not logged in
+	// wrapper takes care of authentication
 	// return page
 	lang := GetLang(r)
 	m := page_map["account_"+lang]
@@ -223,4 +204,12 @@ func handlePostAccount(w http.ResponseWriter, r *http.Request) {
 	default:
 		Respond(w, r, "internal_error", nil)
 	}
+}
+
+func handleGetLogout(w http.ResponseWriter, r *http.Request) {
+	// request allready authenticated by wrapper
+	login, _ := r.Cookie("login") // wrapper ensures that 'login' cookie exists
+	M.UpdateLoggedIn(login.Value, false)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "ok")
 }

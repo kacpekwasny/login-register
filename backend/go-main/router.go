@@ -14,8 +14,9 @@ func newRouter() *mux.Router {
 	rtr.HandleFunc("/login", handlePostLogin).Methods("POST")
 	rtr.HandleFunc("/register", handleGetRegister).Methods("GET")
 	rtr.HandleFunc("/register", handlePostRegister).Methods("POST")
-	rtr.HandleFunc("/account", handleGetAccount).Methods("GET")
+	rtr.HandleFunc("/account", RequireCookiesAuthentication(handleGetAccount)).Methods("GET")
 	rtr.HandleFunc("/account", handlePostAccount).Methods("POST")
+	rtr.HandleFunc("/logout", RequireCookiesAuthentication(handleGetLogout)).Methods("GET")
 
 	dir, ok := CONFIG_MAP["static dir"]
 	if ok {
@@ -35,7 +36,7 @@ func restAPIrouter() *mux.Router {
 	rtr := mux.NewRouter().StrictSlash(true)
 	rtr.HandleFunc("/isAuthenticated/{login}/{token}", handleGetIsAuthenticated).Methods("GET")
 	rtr.HandleFunc("/getAccount/{login}", handleGetAccountJSON).Methods("GET")
-	logAndRelay := LogRequests(rtr.ServeHTTP)
+	logAndRelay := LogRequestsNoCookies(rtr.ServeHTTP)
 	logger := mux.NewRouter()
 	logger.PathPrefix("/").HandlerFunc(logAndRelay)
 	return logger
