@@ -33,8 +33,8 @@ func newRouter() *mux.Router {
 
 func restAPIrouter() *mux.Router {
 	rtr := mux.NewRouter().StrictSlash(true)
-	rtr.HandleFunc("/isAuthenticated", handleGetIsAuthenticated).Methods("GET")
-	rtr.HandleFunc("/getAccount", handleGetAccountJSON).Methods("GET")
+	rtr.HandleFunc("/isAuthenticated/{login}/{token}", handleGetIsAuthenticated).Methods("GET")
+	rtr.HandleFunc("/getAccount/{login}", handleGetAccountJSON).Methods("GET")
 	logAndRelay := LogRequests(rtr.ServeHTTP)
 	logger := mux.NewRouter()
 	logger.PathPrefix("/").HandlerFunc(logAndRelay)
