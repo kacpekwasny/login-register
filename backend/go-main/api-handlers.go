@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -8,8 +9,10 @@ import (
 
 func handleGetIsAuthenticated(w http.ResponseWriter, r *http.Request) {
 	m := mux.Vars(r)
-	if M.IsAuthenticated(m["login"], m["token"]) != nil {
+	err := M.IsAuthenticated(m["login"], m["token"])
+	if err != nil {
 		Respond(w, r, "unauth", nil)
+		fmt.Println("M.IsAuthenticated", err)
 		return
 	}
 	Respond(w, r, "ok", nil)
