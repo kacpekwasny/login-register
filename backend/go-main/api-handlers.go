@@ -18,6 +18,17 @@ func handleGetIsAuthenticated(w http.ResponseWriter, r *http.Request) {
 	Respond(w, r, "ok", nil)
 }
 
+func handleGetProlongAuth(w http.ResponseWriter, r *http.Request) {
+	m := mux.Vars(r)
+	err := M.ProlongAuth(m["login"], m["token"])
+	if err != nil {
+		Respond(w, r, "unauth", nil)
+		fmt.Println("M.ProlongAuth", err)
+		return
+	}
+	Respond(w, r, "ok", nil)
+}
+
 func handleGetAccountJSON(w http.ResponseWriter, r *http.Request) {
 	m := mux.Vars(r)
 	acc, _ := M.GetAccount(m["login"])
