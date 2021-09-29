@@ -85,6 +85,7 @@ func handlePostRegister(w http.ResponseWriter, r *http.Request) {
 	M.Log1("RegusterAccount( %v, *** ) -> %v", login, err)
 	switch err {
 	case nil:
+		addUser(login)
 		Respond(w, r, "ok", nil)
 	case asrv.ErrLoginInUse:
 		Respond(w, r, "login_in_use", nil)
@@ -155,6 +156,7 @@ func handlePostAccount(w http.ResponseWriter, r *http.Request) {
 			M.Log1("UpdateLogin( %v, %v ) -> %v", login, nlog, err)
 			switch err {
 			case nil:
+				changeUsernamePayments(login, nlog)
 				login = nlog
 				break
 			case asrv.ErrLoginInUse:

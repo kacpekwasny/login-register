@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -12,8 +13,13 @@ import (
 	cmt "github.com/kacpekwasny/commontools"
 )
 
-var CONFIG_MAP = LoadConfig()
-var M *asrv.Manager = InitManager()
+var (
+	CONFIG_MAP = LoadConfig()
+	M          = InitManager()
+	client     = &http.Client{
+		Timeout: time.Second * 10,
+	}
+)
 
 func LoadConfig() map[string]string {
 	var conf = map[string]string{}
