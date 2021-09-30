@@ -24,7 +24,7 @@ func changeUsernamePayments(oldLogin, newLogin string) bool {
 	}
 
 	var res map[string]interface{}
-	err = json.Unmarshal(b, res)
+	err = json.Unmarshal(b, &res)
 	if err != nil {
 		fmt.Println("changeUsernamePayments Unmarshal", err)
 		return false
@@ -53,7 +53,7 @@ func addUser(login string) bool {
 	}
 
 	var res map[string]interface{}
-	err = json.Unmarshal(b, res)
+	err = json.Unmarshal(b, &res)
 	if err != nil {
 		fmt.Println("addUser Unmarshal", err)
 		return false
