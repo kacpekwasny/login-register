@@ -29,7 +29,7 @@ func changeUsernamePayments(oldLogin, newLogin string) bool {
 		fmt.Println("changeUsernamePayments Unmarshal", err)
 		return false
 	}
-	if res["err_code"].(int) != 0 {
+	if res["err_code"].(float64) != 0.0 {
 		fmt.Println("changeUsernamePayments respnose:", res)
 		return false
 	}
@@ -58,7 +58,7 @@ func addUser(login string) bool {
 		fmt.Println("addUser Unmarshal", err)
 		return false
 	}
-	if res["err_code"].(int) != 0 {
+	if res["err_code"].(float64) != 0.0 {
 		fmt.Println("addUser respnose:", res)
 		return false
 	}
