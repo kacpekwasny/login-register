@@ -9,7 +9,7 @@ import (
 func changeUsernamePayments(oldLogin, newLogin string) bool {
 
 	addr := CONFIG_MAP["payments api addr"]
-	resp, err := client.Post(addr+"/post/login/"+oldLogin+"/"+newLogin, "", nil)
+	resp, err := client.Post(addr+"/post/change-login/"+oldLogin+"/"+newLogin, "", nil)
 
 	if err != nil {
 		fmt.Println("changeUsernamePayments", err)
